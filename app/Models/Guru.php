@@ -4,17 +4,17 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class Kelas extends Model
+class Guru extends Model
 {
 	protected $DBGroup              = 'default';
-	protected $table                = 'kelas';
+	protected $table                = 'guru';
 	protected $primaryKey           = 'id';
 	protected $useAutoIncrement     = true;
 	protected $insertID             = 0;
-	protected $returnType           = 'object';
+	protected $returnType           = 'array';
 	protected $useSoftDeletes       = false;
 	protected $protectFields        = true;
-	protected $allowedFields        = ['nama', 'id_guru'];
+	protected $allowedFields        = [];
 
 	// Dates
 	protected $useTimestamps        = false;
@@ -24,10 +24,7 @@ class Kelas extends Model
 	protected $deletedField         = 'deleted_at';
 
 	// Validation
-	protected $validationRules      = [
-		'nama' => 'required',
-		'id_guru' => 'required'
-	];
+	protected $validationRules      = [];
 	protected $validationMessages   = [];
 	protected $skipValidation       = false;
 	protected $cleanValidationRules = true;
@@ -42,5 +39,4 @@ class Kelas extends Model
 	protected $afterFind            = [];
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
-
 }

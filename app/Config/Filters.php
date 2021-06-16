@@ -2,6 +2,9 @@
 
 namespace Config;
 
+use App\Filters\LoginFilter;
+use App\Filters\PermissionFilter;
+use App\Filters\RoleFilter;
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Filters\CSRF;
 use CodeIgniter\Filters\DebugToolbar;
@@ -19,9 +22,9 @@ class Filters extends BaseConfig
         'csrf'     => CSRF::class,
         'toolbar'  => DebugToolbar::class,
         'honeypot' => Honeypot::class,
-        'login'      => \Myth\Auth\Filters\LoginFilter::class,
-        'role'       => \Myth\Auth\Filters\RoleFilter::class,
-        'permission' => \Myth\Auth\Filters\PermissionFilter::class,
+        'login'      => LoginFilter::class,
+        'role'       => RoleFilter::class,
+        'permission' => PermissionFilter::class,
     ];
 
     /**
@@ -32,7 +35,7 @@ class Filters extends BaseConfig
      */
     public $globals = [
         'before' => [
-            'honeypot', 'login'
+            'honeypot',
             // 'csrf',
         ],
         'after'  => [
@@ -61,5 +64,7 @@ class Filters extends BaseConfig
      *
      * @var array
      */
-    public $filters = [];
+    public $filters = [
+        'login' => ['before' => ['admin/*']]
+    ];
 }

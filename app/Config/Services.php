@@ -2,7 +2,16 @@
 
 namespace Config;
 
+use App\Models\LoginModel;
+use App\Models\UserModel;
 use CodeIgniter\Config\BaseService;
+use CodeIgniter\Model;
+use Myth\Auth\Authentication\Activators\UserActivator;
+use Myth\Auth\Authentication\Passwords\PasswordValidator;
+use Myth\Auth\Authentication\Resetters\UserResetter;
+use Myth\Auth\Authorization\FlatAuthorization;
+use Myth\Auth\Authorization\GroupModel;
+use Myth\Auth\Authorization\PermissionModel;
 
 /**
  * Services Configuration file.

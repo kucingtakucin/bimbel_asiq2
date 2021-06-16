@@ -31,23 +31,106 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
 
-// Siswa
-// ...
+// Home
+$routes->get('/', 'Home::index', ['as' => 'home']);
+
+/**
+ * Auth routes
+ */
+$routes->group('', ['namespace' => 'App\Controllers'], function ($routes) {
+    // Login/out
+    $routes->get('login', 'AuthController::login', ['as' => 'login']);
+    $routes->post('login', 'AuthController::attemptLogin');
+    $routes->get('logout', 'AuthController::logout');
+
+    // Registration
+    $routes->get('register', 'AuthController::register', ['as' => 'register']);
+    $routes->post('register', 'AuthController::attemptRegister');
+
+    // Activation
+    $routes->get('activate-account', 'AuthController::activateAccount', ['as' => 'activate-account']);
+    $routes->get('resend-activate-account', 'AuthController::resendActivateAccount', ['as' => 'resend-activate-account']);
+
+    // Forgot/Resets
+    $routes->get('forgot', 'AuthController::forgotPassword', ['as' => 'forgot']);
+    $routes->post('forgot', 'AuthController::attemptForgot');
+    $routes->get('reset-password', 'AuthController::resetPassword', ['as' => 'reset-password']);
+    $routes->post('reset-password', 'AuthController::attemptReset');
+});
+
+// Admin routes
+$routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function ($routes) {
+
+    // Home
+    $routes->group('', ['namespace' => 'App\Controllers\Admin\Home'], function ($routes) {
+        $routes->get('/', 'Home::index', ['as' => 'admin.home']);
+    });
+
+    // Kelas
+    $routes->group('kelas', ['namespace' => 'App\Controllers\Admin\Kelas'], function ($routes) {
+        $routes->get('/', 'KelasController::index', ['as' => 'admin.kelas.index']);
+        $routes->post('/', 'KelasController::create', ['as' => 'admin.kelas.create']);
+        $routes->get('new', 'KelasController::new', ['as' => 'admin.kelas.new']);
+        $routes->get('select', 'KelasController::select', ['as' => 'admin.kelas.select']);
+        $routes->get('(:segment)', 'KelasController::show/$1', ['as' => 'admin.kelas.show']);
+        $routes->get('(:segment)/edit', 'KelasController::edit/$1', ['as' => 'admin.kelas.edit']);
+        $routes->put('(:segment)', 'KelasController::update/$1', ['as' => 'admin.kelas.update']);
+        // $routes->patch('(:segment)', 'KelasController::update/$1', ['as' => 'admin.kelas.update']);
+        $routes->delete('(:segment)', 'KelasController::delete/$1', ['as' => 'admin.kelas.delete']);
+    });
+
+    // Siswa
+    /* ... */
+
+    // Guru
+    /* ... */
+
+    // Mapel
+    /* ... */
+
+    // Materi
+    /* ... */
+});
 
 // Guru
-// ...
+$routes->group('guru', ['namespace' => 'App\Controllers\Guru'], function ($routes) {
 
-// Kelas
-$routes->get('kelas/new', 'KelasController::new');
-$routes->post('kelas', 'KelasController::create');
-$routes->get('kelas', 'KelasController::index');
-$routes->get('kelas/(:segment)', 'KelasController::show/$1');
-$routes->get('kelas/(:segment)/edit', 'KelasController::edit/$1');
-$routes->put('kelas/(:segment)', 'KelasController::update/$1');
-$routes->patch('kelas/(:segment)', 'KelasController::update/$1');
-$routes->delete('kelas/(:segment)', 'KelasController::delete/$1');
+    // Kelas
+    /* ... */
+
+    // Siswa
+    /* ... */
+
+    // Guru
+    /* ... */
+
+    // Mapel
+    /* ... */
+
+    // Materi
+    /* ... */
+});
+
+// Siswa
+$routes->group('siswa', ['namespace' => 'App\Controllers\Siswa'], function ($routes) {
+
+    // Kelas
+    /* ... */
+
+    // Siswa
+    /* ... */
+
+    // Guru
+    /* ... */
+
+    // Mapel
+    /* ... */
+
+    // Materi
+    /* ... */
+});
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing
