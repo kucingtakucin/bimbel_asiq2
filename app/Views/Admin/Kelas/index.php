@@ -19,23 +19,15 @@
                         <th class="px-4 py-3 title-font tracking-wider font-medium text-white text-sm bg-gray-800">
                             Kelas
                         </th>
+                        <th class="px-4 py-3 title-font tracking-wider font-medium text-white text-sm bg-gray-800">
+                            Koordinator
+                        </th>
                         <th class="w-10 title-font tracking-wider font-medium text-white text-sm bg-gray-800 rounded-tr rounded-br">
                             Aksi
                         </th>
                     </tr>
                 </thead>
-                <tbody>
-                    <?php foreach ($kelas as $item) : ?>
-                        <tr>
-                            <td class="border-t-2 border-gray-800 px-4 py-3">1</td>
-                            <td class="border-t-2 border-gray-800 px-4 py-3"><?= $item->nama ?></td>
-                            <td class="border-t-2 border-gray-800 px-4 py-3 flex">
-                                <button class="mr-3 flex ml-auto text-white bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-600 rounded">Detail</button>
-                                <button class="mr-3 flex ml-auto text-white bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-600 rounded">Edit</button>
-                                <button class="flex ml-auto text-white bg-red-500 border-0 py-1 px-3 focus:outline-none hover:bg-red-600 rounded">Hapus</button>
-                            </td>
-                        </tr>
-                    <?php endforeach ?>
+                <tbody id="table_admin_kelas">
                 </tbody>
             </table>
         </div>
@@ -48,5 +40,76 @@
         </div>
     </div>
 </section>
+<?= $this->endSection(); ?>
 
+<?= $this->section('scripts') ?>
+<script>
+    $(document).ready(function() {
+        function initTable() {
+            $.ajax({
+                url: '<?= route_to('admin.kelas.data')?>',
+                type: 'GET',
+                headers: {'X-Requested-With': 'XMLHttpRequest'},
+                async: false,
+                success: function (params) {
+                    let html = ''
+                    params.data.map((value, index) => {
+                        html += `
+                        <tr>
+                            <td class="border-t-2 border-gray-800 px-4 py-3">${index + 1}</td>
+                            <td class="border-t-2 border-gray-800 px-4 py-3">${value.nama}</td>
+                            <td class="border-t-2 border-gray-800 px-4 py-3">${value.nama_guru}</td>
+                            <td class="border-t-2 border-gray-800 px-4 py-3 flex">
+                                <a href="<?= route_to('admin.kelas.edit', '${value.id}') ?>" class="mr-3 flex ml-auto text-white bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-600 rounded">Edit</a>
+                                <form class="form_admin_kelas" action="<?= route_to('admin.kelas.delete', '${value.id}') ?>">
+                                    <?= csrf_field() ?>
+                                    <button type="submit" class="flex ml-auto text-white bg-red-500 border-0 py-1 px-3 focus:outline-none hover:bg-red-600 rounded">Hapus</button>
+                                </form>
+                            </td>
+                        </tr>`
+                    })
+                    $('#table_admin_kelas').html(html)
+                }
+            })
+        }
+        initTable();
+        $('.form_admin_kelas').submit(function(event) {
+            event.preventDefault()
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let formData = new FormData(this)
+                    $.ajax({
+                        url: $(this).attr('action'),
+                        type: 'GET',
+                        headers: {'X-Requested-With': 'XMLHttpRequest'},
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function (params) {
+                            if (params.status) {     
+                                Swal.fire(
+                                    'Deleted!',
+                                    `${params.message}`,
+                                    'success'
+                                )            
+                                initTable(); 
+                            }
+                        },
+                        error: function (error) {
+                            console.error(error)
+                        }
+                    })
+                }
+            })
+        })
+    })
+</script>
 <?= $this->endSection();

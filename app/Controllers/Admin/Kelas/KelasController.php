@@ -23,10 +23,7 @@ class KelasController extends ResourceController
      */
     public function index()
     {
-        $data = [
-            'kelas' => $this->kelas->findAll()->join('guru', 'kelas.id_guru = guru.id')
-        ];
-        return view('Admin/Kelas/index', $data);
+        return view('Admin/Kelas/index');
     }
 
     /**
@@ -36,8 +33,10 @@ class KelasController extends ResourceController
      */
     public function data()
     {
-        return $this->kelas->findAll()
-            ->join('guru', 'kelas.id_guru = guru.id');
+        return $this->respond([
+            'status' => true,
+            'data' => $this->kelas->findAll()
+        ]);
     }
     /**
      * Return the properties of a resource object
@@ -46,7 +45,7 @@ class KelasController extends ResourceController
      */
     public function show($id = null)
     {
-        //
+        return $this->respond($this->kelas->find($id));
     }
 
     /**
@@ -66,11 +65,10 @@ class KelasController extends ResourceController
      */
     public function select()
     {
-        return $this->response->setHeader('Content-Type', 'application/json')
-            ->setStatusCode(200)
-            ->setJSON([
-                'guru' => $this->guru->findAll()
-            ]);
+        return $this->respond([
+            'status'=> true,
+            'guru' => $this->guru->findAll()
+        ]);
     }
 
     /**
@@ -81,11 +79,18 @@ class KelasController extends ResourceController
     public function create()
     {
         if (!$this->validate($this->kelas->getValidationRules())) {
-            return redirect()->route('admin.kelas.new')
-                ->withInput()->with('errors', $this->validator->getErrors());
+            return $this->respond([
+                'status' => false,
+                'errors' => $this->validator->getErrors(),
+                'message' => 'Gagal ditambahkan!'
+            ]);
         }
         $this->kelas->insert($this->request->getPost());
-        return redirect()->route('admin.kelas.index');
+        return $this->respondCreated([
+            'status' => true,
+            'data' => $this->request->getPost(),
+            'message' => 'Berhasil ditambahkan!'
+        ]);
     }
 
     /**
@@ -96,7 +101,9 @@ class KelasController extends ResourceController
      */
     public function edit($id = null)
     {
-        //
+        return view('Admin/Kelas/edit', [
+            'kelas' => $this->kelas->find($id)
+        ]);
     }
 
     /**
@@ -107,7 +114,19 @@ class KelasController extends ResourceController
      */
     public function update($id = null)
     {
-        //
+        if (!$this->validate($this->kelas->getValidationRules())) {
+            return $this->respond([
+                'status' => false,
+                'errors' => $this->validator->getErrors(),
+                'message' => 'Gagal diubah!'
+            ]);
+        }
+        $this->kelas->update($id, $this->request->getPost());
+        return $this->respondUpdated([
+            'status' => true,
+            'data' => $this->request->getRawInput(),
+            'message' => 'Berhasil diubah!'
+        ]);
     }
 
     /**
@@ -118,6 +137,10 @@ class KelasController extends ResourceController
      */
     public function delete($id = null)
     {
-        //
+        $this->kelas->delete($id);
+        return $this->respondDeleted([
+            'status' => true,
+            'message' => 'Berhasil dihapus!'
+        ]);
     }
 }

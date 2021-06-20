@@ -73,11 +73,12 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function ($rou
         $routes->post('/', 'KelasController::create', ['as' => 'admin.kelas.create']);
         $routes->get('new', 'KelasController::new', ['as' => 'admin.kelas.new']);
         $routes->get('select', 'KelasController::select', ['as' => 'admin.kelas.select']);
+        $routes->get('data', 'KelasController::data', ['as' => 'admin.kelas.data']);
         $routes->get('(:segment)', 'KelasController::show/$1', ['as' => 'admin.kelas.show']);
         $routes->get('(:segment)/edit', 'KelasController::edit/$1', ['as' => 'admin.kelas.edit']);
-        $routes->put('(:segment)', 'KelasController::update/$1', ['as' => 'admin.kelas.update']);
+        $routes->post('(:segment)/update', 'KelasController::update/$1', ['as' => 'admin.kelas.update']);
         // $routes->patch('(:segment)', 'KelasController::update/$1', ['as' => 'admin.kelas.update']);
-        $routes->delete('(:segment)', 'KelasController::delete/$1', ['as' => 'admin.kelas.delete']);
+        $routes->get('(:segment)/delete', 'KelasController::delete/$1', ['as' => 'admin.kelas.delete']);
     });
 
     // Siswa
