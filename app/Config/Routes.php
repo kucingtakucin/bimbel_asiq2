@@ -82,7 +82,18 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function ($rou
     });
 
     // Siswa
-    /* ... */
+    $routes->group('siswa', ['namespace' => 'App\Controllers\Admin\Siswa'], function ($routes) {
+        $routes->get('/', 'SiswaController::index', ['as' => 'admin.siswa.index']);
+        $routes->post('/', 'SiswaController::create', ['as' => 'admin.siswa.create']);
+        $routes->get('new', 'SiswaController::new', ['as' => 'admin.siswa.new']);
+        $routes->get('select', 'SiswaController::select', ['as' => 'admin.siswa.select']);
+        $routes->get('data', 'SiswaController::data', ['as' => 'admin.siswa.data']);
+        $routes->get('(:segment)', 'SiswaController::show/$1', ['as' => 'admin.siswa.show']);
+        $routes->get('(:segment)/edit', 'SiswaController::edit/$1', ['as' => 'admin.siswa.edit']);
+        $routes->post('(:segment)/update', 'SiswaController::update/$1', ['as' => 'admin.siswa.update']);
+        // $routes->patch('(:segment)', 'SiswaController::update/$1', ['as' => 'admin.siswa.update']);
+        $routes->get('(:segment)/delete', 'SiswaController::delete/$1', ['as' => 'admin.siswa.delete']);
+    });
 
     // Guru
     /* ... */
