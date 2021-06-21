@@ -109,8 +109,18 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function ($rou
         $routes->get('(:segment)/delete', 'GuruController::delete/$1', ['as' => 'admin.guru.delete']);
     });
     // Mapel
-    /* ... */
-
+    $routes->group('mapel', ['namespace' => 'App\Controllers\Admin\Mapel'], function ($routes) {
+        $routes->get('/', 'MapelController::index', ['as' => 'admin.mapel.index']);
+        $routes->post('/', 'MapelController::create', ['as' => 'admin.mapel.create']);
+        $routes->get('new', 'MapelController::new', ['as' => 'admin.mapel.new']);
+        $routes->get('select', 'MapelController::select', ['as' => 'admin.mapel.select']);
+        $routes->get('data', 'MapelController::data', ['as' => 'admin.mapel.data']);
+        $routes->get('(:segment)', 'MapelController::show/$1', ['as' => 'admin.mapel.show']);
+        $routes->get('(:segment)/edit', 'MapelController::edit/$1', ['as' => 'admin.mapel.edit']);
+        $routes->post('(:segment)/update', 'MapelController::update/$1', ['as' => 'admin.mapel.update']);
+        // $routes->patch('(:segment)', 'MapelController::update/$1', ['as' => 'admin.mapel.update']);
+        $routes->get('(:segment)/delete', 'MapelController::delete/$1', ['as' => 'admin.mapel.delete']);
+    });
     // Materi
     /* ... */
 });
