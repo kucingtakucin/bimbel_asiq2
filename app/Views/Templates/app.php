@@ -28,7 +28,7 @@
                 <?php endif ?>
                 <?php if (in_groups('admin') && !(current_url() === base_url(route_to('home')) . '/')) : ?>
                     <a href="<?= route_to('admin.siswa.index') ?>" class="mr-5 hover:text-white">Siswa</a>
-                    <a href="<?= route_to('admin.guru.index') ?>" class="mr-5 hover:text-white">Guru</a>
+                    <a href="<?= route_to('admin.guru.index') ?>" class="mr-5 hover:text-white">Mentor</a>
                     <a href="<?= route_to('admin.kelas.index') ?>" class="mr-5 hover:text-white">Kelas</a>
                     <a href="<?= route_to('admin.mapel.index') ?>" class="mr-5 hover:text-white">Mapel</a>
                 <?php endif ?>

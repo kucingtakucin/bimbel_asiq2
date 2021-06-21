@@ -14,7 +14,7 @@ class Guru extends Model
 	protected $returnType           = 'array';
 	protected $useSoftDeletes       = false;
 	protected $protectFields        = true;
-	protected $allowedFields        = [];
+	protected $allowedFields        = ['nama'];
 
 	// Dates
 	protected $useTimestamps        = false;
@@ -24,7 +24,9 @@ class Guru extends Model
 	protected $deletedField         = 'deleted_at';
 
 	// Validation
-	protected $validationRules      = [];
+	protected $validationRules      = [
+		'nama' => 'required'
+	];
 	protected $validationMessages   = [];
 	protected $skipValidation       = false;
 	protected $cleanValidationRules = true;
@@ -39,4 +41,21 @@ class Guru extends Model
 	protected $afterFind            = [];
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
+
+	public function findAll(int $limit = 0, int $offset = 0)
+	{
+		return $this->db->table($this->table)
+			->select('guru.*, guru.nama as nama_guru')
+			->get()
+			->getResult();
+	}
+
+	public function find($id = null)
+	{
+		return $this->db->table($this->table)
+			->select('guru.*, guru.nama as nama_guru')
+			->where('guru.id', $id)
+			->get()
+			->getRow();
+	}
 }

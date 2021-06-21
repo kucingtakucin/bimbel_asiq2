@@ -96,8 +96,18 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function ($rou
     });
 
     // Guru
-    /* ... */
-
+    $routes->group('guru', ['namespace' => 'App\Controllers\Admin\Guru'], function ($routes) {
+        $routes->get('/', 'GuruController::index', ['as' => 'admin.guru.index']);
+        $routes->post('/', 'GuruController::create', ['as' => 'admin.guru.create']);
+        $routes->get('new', 'GuruController::new', ['as' => 'admin.guru.new']);
+        $routes->get('select', 'GuruController::select', ['as' => 'admin.guru.select']);
+        $routes->get('data', 'GuruController::data', ['as' => 'admin.guru.data']);
+        $routes->get('(:segment)', 'GuruController::show/$1', ['as' => 'admin.guru.show']);
+        $routes->get('(:segment)/edit', 'GuruController::edit/$1', ['as' => 'admin.guru.edit']);
+        $routes->post('(:segment)/update', 'GuruController::update/$1', ['as' => 'admin.guru.update']);
+        // $routes->patch('(:segment)', 'GuruController::update/$1', ['as' => 'admin.guru.update']);
+        $routes->get('(:segment)/delete', 'GuruController::delete/$1', ['as' => 'admin.guru.delete']);
+    });
     // Mapel
     /* ... */
 
