@@ -5,6 +5,7 @@
     <div class="container px-5 py-24 mx-auto">
         <div class="flex flex-col text-center w-full mb-20">
             <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-white">Siswa</h1>
+            <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Daftar Siswa</p>
         </div>
         <div class="lg:w-2/3 w-full mx-auto overflow-auto">
             <a href="<?= route_to('admin.siswa.new') ?>" class="mr-3 inline-block ml-auto text-white bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-600 rounded mb-3">Tambah</a>
@@ -17,7 +18,7 @@
                         <th class="px-4 py-3 title-font tracking-wider font-medium text-white text-sm bg-gray-800">
                             Siswa
                         </th>
-                        <th class="w-10 title-font tracking-wider font-medium text-white text-sm bg-gray-800 rounded-tr rounded-br">
+                        <th class="px-4 py-3 title-font tracking-wider font-medium text-white text-sm bg-gray-800">
                             Kelas
                         </th>
                         <th class="w-10 title-font tracking-wider font-medium text-white text-sm bg-gray-800 rounded-tr rounded-br">
@@ -73,6 +74,7 @@
             })
         }
         initTable();
+
         $('.form_admin_siswa').submit(function(event) {
             event.preventDefault()
             Swal.fire({

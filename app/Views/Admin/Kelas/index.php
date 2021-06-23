@@ -5,11 +5,11 @@
     <div class="container px-5 py-24 mx-auto">
         <div class="flex flex-col text-center w-full mb-20">
             <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-white">Kelas</h1>
-            <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Banh mi cornhole echo park skateboard authentic
-                crucifix neutra tilde lyft biodiesel artisan direct trade mumblecore 3 wolf moon twee</p>
+            <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Daftar kelas</p>
         </div>
         <div class="lg:w-2/3 w-full mx-auto overflow-auto">
             <a href="<?= route_to('admin.kelas.new') ?>" class="mr-3 inline-block ml-auto text-white bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-600 rounded mb-3">Tambah</a>
+            <!-- <a href="#" id="tambah_kelas" class="mr-3 inline-block ml-auto text-white bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-600 rounded mb-3">Tambah</a> -->
             <table class="table-auto w-full text-left whitespace-no-wrap">
                 <thead>
                     <tr>
@@ -28,6 +28,7 @@
                     </tr>
                 </thead>
                 <tbody id="table_admin_kelas">
+                    <!-- Kosong, nanti di isi pake javascript -->
                 </tbody>
             </table>
         </div>
@@ -45,7 +46,10 @@
 <?= $this->section('scripts') ?>
 <script>
     $(document).ready(function() {
+
         function initTable() {
+
+            // Request AJAX
             $.ajax({
                 url: '<?= route_to('admin.kelas.data')?>',
                 type: 'GET',
@@ -72,7 +76,10 @@
                 }
             })
         }
+
         initTable();
+    
+        // Delete
         $('.form_admin_kelas').submit(function(event) {
             event.preventDefault()
             Swal.fire({
@@ -94,12 +101,14 @@
                         contentType: false,
                         processData: false,
                         success: function (params) {
-                            if (params.status) {     
+                            if (params.status) {    
+
                                 Swal.fire(
                                     'Deleted!',
                                     `${params.message}`,
                                     'success'
-                                )            
+                                )
+
                                 initTable(); 
                             }
                         },

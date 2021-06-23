@@ -5,10 +5,11 @@
     <div class="container px-5 py-24 mx-auto">
         <div class="flex flex-col text-center w-full mb-20">
             <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-white">Mapel</h1>
-            <p class="lg:w-2/3 mx-auto leading-relaxed text-base"></p>
+            <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Daftar Mata Pelajaran</p>
         </div>
         <div class="lg:w-2/3 w-full mx-auto overflow-auto">
-            <a href="<?= route_to('admin.mapel.new') ?>" class="mr-3 inline-block ml-auto text-white bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-600 rounded mb-3">Tambah</a>
+            <!-- <a href="<?= route_to('admin.mapel.new') ?>" class="mr-3 inline-block ml-auto text-white bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-600 rounded mb-3">Tambah</a> -->
+            <a href="#" id="tambah_mapel" class="mr-3 inline-block ml-auto text-white bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-600 rounded mb-3">Tambah</a>
             <table class="table-auto w-full text-left whitespace-no-wrap">
                 <thead>
                     <tr>
@@ -70,7 +71,54 @@
                 }
             })
         }
+        
         initTable();
+
+        $('#tambah_mapel').click(async function (event){
+            event.preventDefault();
+            await Swal.fire({
+                title: 'Form tambah mapel',
+                input: 'text',
+                inputLabel: 'Masukkan nama mapel',
+                // inputValue: inputValue,
+                showCancelButton: true,
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'Nama mapel wajib diisi!'
+                    }
+                    let formData = new FormData();
+                    formData.append('nama', value)
+                    $.ajax({
+                        url: '<?= route_to('admin.mapel.create') ?>',
+                        type: 'POST',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function(params) {
+                            console.log(params)
+                            if (params.status) {
+                                Swal.fire({
+                                    title: 'Data Mapel',
+                                    text: `${params.message}`,
+                                    icon: 'success',
+                                    showCancelButton: false,
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'Okay'
+                                })
+                                initTable();
+                            } 
+                        },
+                        error: function(error) {
+                            console.error(error)
+                        }
+                    })
+                }
+            })
+        })
+
         $('.form_admin_mapel').submit(function(event) {
             event.preventDefault()
             Swal.fire({

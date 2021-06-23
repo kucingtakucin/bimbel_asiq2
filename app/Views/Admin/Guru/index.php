@@ -5,10 +5,11 @@
     <div class="container px-5 py-24 mx-auto">
         <div class="flex flex-col text-center w-full mb-20">
             <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-white">Mentor</h1>
-            <p class="lg:w-2/3 mx-auto leading-relaxed text-base"></p>
+            <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Daftar Mentor</p>
         </div>
         <div class="lg:w-2/3 w-full mx-auto overflow-auto">
-            <a href="<?= route_to('admin.guru.new') ?>" class="mr-3 inline-block ml-auto text-white bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-600 rounded mb-3">Tambah</a>
+            <!-- <a href="<?= route_to('admin.guru.new') ?>" class="mr-3 inline-block ml-auto text-white bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-600 rounded mb-3">Tambah</a> -->
+            <a href="#" id="tambah_mentor" class="mr-3 inline-block ml-auto text-white bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-600 rounded mb-3">Tambah</a>
             <table class="table-auto w-full text-left whitespace-no-wrap">
                 <thead>
                     <tr>
@@ -58,7 +59,11 @@
                             <td class="border-t-2 border-gray-800 px-4 py-3">${value.nama}</td>
                             
                             <td class="border-t-2 border-gray-800 px-4 py-3 flex">
-                                <a href="<?= route_to('admin.guru.edit', '${value.id}') ?>" class="mr-3 flex ml-auto text-white bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-600 rounded">Edit</a>
+                                <!-- <a href="<?= route_to('admin.guru.edit', '${value.id}') ?>" class="mr-3 flex ml-auto text-white bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-600 rounded">Edit</a> -->
+                                <a href="#" data-id="${value.id}" 
+                                    data-detail="<?= route_to('admin.guru.show', '${value.id}') ?>"
+                                    data-route="<?= route_to('admin.guru.update', '${value.id}') ?>"
+                                    class="ubah_mentor mr-3 flex ml-auto text-white bg-indigo-500 border-0 py-1 px-3 focus:outline-none hover:bg-indigo-600 rounded">Edit</a>
                                 <form class="form_admin_guru" action="<?= route_to('admin.guru.delete', '${value.id}') ?>">
                                     <?= csrf_field() ?>
                                     <button type="submit" class="flex ml-auto text-white bg-red-500 border-0 py-1 px-3 focus:outline-none hover:bg-red-600 rounded">Hapus</button>
@@ -71,6 +76,108 @@
             })
         }
         initTable();
+
+        $('#tambah_mentor').click(async function (event){
+            event.preventDefault();
+
+            await Swal.fire({
+                title: 'Form tambah mentor',
+                input: 'text',
+                inputLabel: 'Nama Mentor',
+                // inputValue: inputValue,
+                showCancelButton: true,
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'Nama mentor wajib diisi!'
+                    }
+                    let formData = new FormData();
+                    formData.append('nama', value)
+                    $.ajax({
+                        url: '<?= route_to('admin.guru.create') ?>',
+                        type: 'POST',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function(params) {
+                            console.log(params)
+                            if (params.status) {
+                                Swal.fire({
+                                    title: 'Data Mentor',
+                                    text: `${params.message}`,
+                                    icon: 'success',
+                                    showCancelButton: false,
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'Okay'
+                                })
+                                initTable();
+                            } 
+                        },
+                        error: function(error) {
+                            console.error(error)
+                        }
+                    })
+                }
+            })
+        })
+
+        $('.ubah_mentor').click(async function (event) {
+            event.preventDefault()
+            event.stopImmediatePropagation()
+            event.stopPropagation()
+            let inputValue = fetch($(this).data('detail'))
+                .then(response => {
+                    if (response.ok) {
+                        return response.json()
+                    }
+                    throw new Error(response.statusText)
+                })
+                .then(response => response.nama)
+            await Swal.fire({
+                title: 'Form tambah mentor',
+                input: 'text',
+                inputLabel: 'Nama Mentor',
+                inputValue: inputValue,
+                showCancelButton: true,
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'Nama mentor wajib diisi!'
+                    }
+                    let formData = new FormData();
+                    formData.append('nama', value)
+                    $.ajax({
+                        url: $(this).data('route'),
+                        type: 'POST',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function(params) {
+                            console.log(params)
+                            if (params.status) {
+                                Swal.fire({
+                                    title: 'Data Mentor',
+                                    text: `${params.message}`,
+                                    icon: 'success',
+                                    showCancelButton: false,
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'Okay'
+                                })
+                                initTable();
+                            } 
+                        },
+                        error: function(error) {
+                            console.error(error)
+                        }
+                    })
+                }
+            })
+        })
+
         $('.form_admin_guru').submit(function(event) {
             event.preventDefault()
             Swal.fire({
