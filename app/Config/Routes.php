@@ -60,7 +60,7 @@ $routes->group('', ['namespace' => 'App\Controllers'], function ($routes) {
 });
 
 // Admin routes
-$routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function ($routes) {
+$routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'role:admin'], function ($routes) {
 
     // Home
     $routes->group('', ['namespace' => 'App\Controllers\Admin\Home'], function ($routes) {
@@ -97,6 +97,11 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function ($rou
 // Guru
 $routes->group('guru', ['namespace' => 'App\Controllers\Guru'], function ($routes) {
 
+    // Home
+    $routes->group('', ['namespace' => 'App\Controllers\Guru\Home'], function ($routes) {
+        $routes->get('/', 'Home::index', ['as' => 'guru.home']);
+    });
+
     // Kelas
     /* ... */
 
@@ -115,6 +120,11 @@ $routes->group('guru', ['namespace' => 'App\Controllers\Guru'], function ($route
 
 // Siswa
 $routes->group('siswa', ['namespace' => 'App\Controllers\Siswa'], function ($routes) {
+
+    // Home
+    $routes->group('', ['namespace' => 'App\Controllers\Siswa\Home'], function ($routes) {
+        $routes->get('/', 'Home::index', ['as' => 'kelas.home']);
+    });
 
     // Kelas
     /* ... */

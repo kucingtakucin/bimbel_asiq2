@@ -35,7 +35,8 @@ class KelasController extends ResourceController
     {
         return $this->respond([
             'status' => true,
-            'data' => $this->kelas->findAll()
+            'data' => $this->kelas->findAll(),
+            'group' => in_groups('admin')
         ]);
     }
     /**
