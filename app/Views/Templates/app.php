@@ -18,7 +18,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
                     <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
                 </svg>
-                <span class="ml-3 text-xl">Tailblocks</span>
+                <span class="ml-3 text-xl">ASIQ!</span>
             </a>
             <nav class="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center">
                 <?php if (logged_in() && current_url() === base_url(route_to('admin.home'))) : ?>
@@ -27,10 +27,10 @@
                     <a href="<?= route_to('home') ?>" class="mr-5 hover:text-white">Home</a>
                 <?php endif ?>
                 <?php if (in_groups('admin') && !(current_url() === base_url(route_to('home')) . '/')) : ?>
-                    <a class="mr-5 hover:text-white">Siswa</a>
-                    <a class="mr-5 hover:text-white">Guru</a>
+                    <a href="<?= route_to('admin.siswa.index') ?>" class="mr-5 hover:text-white">Siswa</a>
+                    <a href="<?= route_to('admin.guru.index') ?>" class="mr-5 hover:text-white">Mentor</a>
                     <a href="<?= route_to('admin.kelas.index') ?>" class="mr-5 hover:text-white">Kelas</a>
-                    <a class="mr-5 hover:text-white">Mapel</a>
+                    <a href="<?= route_to('admin.mapel.index') ?>" class="mr-5 hover:text-white">Mapel</a>
                 <?php endif ?>
             </nav>
             <?php if (logged_in()) : ?>
@@ -73,11 +73,11 @@
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
                     <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
                 </svg>
-                <span class="ml-3 text-xl">Tailblocks</span>
+                <span class="ml-3 text-xl">ASIQ!</span>
             </a>
             <p class="text-sm text-gray-400 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-800 sm:py-2 sm:mt-0 mt-4">©
-                2020 Tailblocks —
-                <a href="https://twitter.com/knyttneve" class="text-gray-500 ml-1" target="_blank" rel="noopener noreferrer">@knyttneve</a>
+                2021 ASIQ! —
+                <a href="" class="text-gray-500 ml-1" target="_blank" rel="noopener noreferrer">@kelompok 1</a>
             </p>
             <span class="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
                 <a class="text-gray-400">

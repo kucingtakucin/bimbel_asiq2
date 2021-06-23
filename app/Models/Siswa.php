@@ -4,17 +4,17 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class Guru extends Model
+class Siswa extends Model
 {
 	protected $DBGroup              = 'default';
-	protected $table                = 'guru';
+	protected $table                = 'siswa';
 	protected $primaryKey           = 'id';
 	protected $useAutoIncrement     = true;
 	protected $insertID             = 0;
-	protected $returnType           = 'array';
+	protected $returnType           = 'object';
 	protected $useSoftDeletes       = false;
 	protected $protectFields        = true;
-	protected $allowedFields        = ['nama'];
+	protected $allowedFields        = ['nama', 'id_kelas'];
 
 	// Dates
 	protected $useTimestamps        = false;
@@ -25,7 +25,8 @@ class Guru extends Model
 
 	// Validation
 	protected $validationRules      = [
-		'nama' => 'required'
+		'nama' => 'required',
+		'id_kelas' => 'required'
 	];
 	protected $validationMessages   = [];
 	protected $skipValidation       = false;
@@ -45,7 +46,8 @@ class Guru extends Model
 	public function findAll(int $limit = 0, int $offset = 0)
 	{
 		return $this->db->table($this->table)
-			->select('guru.*, guru.nama as nama_guru')
+			->select('siswa.*, kelas.nama as nama_kelas')
+			->join('kelas', 'kelas.id = siswa.id_kelas')
 			->get()
 			->getResult();
 	}
@@ -53,8 +55,9 @@ class Guru extends Model
 	public function find($id = null)
 	{
 		return $this->db->table($this->table)
-			->select('guru.*, guru.nama as nama_guru')
-			->where('guru.id', $id)
+			->select('siswa.*, kelas.nama as nama_kelas')
+			->join('kelas', 'kelas.id = siswa.id_kelas')
+			->where('siswa.id', $id)
 			->get()
 			->getRow();
 	}
